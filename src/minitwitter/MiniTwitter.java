@@ -5,6 +5,8 @@
  */
 package minitwitter;
 
+import UI.AdminFrame;
+
 /**
  *
  * @author Heather
@@ -15,7 +17,8 @@ public class MiniTwitter {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        AdminFrame adminFrame = new AdminFrame();
+        adminFrame.setVisible(true);
     }
     
 }
