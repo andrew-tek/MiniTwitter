@@ -6,6 +6,7 @@
 package minitwitter;
 
 import UI.AdminFrame;
+import UI.UserViewFrame;
 
 /**
  *
@@ -19,6 +20,8 @@ public class MiniTwitter {
     public static void main(String[] args) {
         AdminFrame adminFrame = new AdminFrame();
         adminFrame.setVisible(true);
+        UserViewFrame userView = new UserViewFrame();
+        userView.setVisible(true);
     }
     
 }
