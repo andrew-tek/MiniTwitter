@@ -20,8 +20,8 @@ public class MiniTwitter {
     public static void main(String[] args) {
         AdminFrame adminFrame = new AdminFrame();
         adminFrame.setVisible(true);
-        UserViewFrame userView = new UserViewFrame();
-        userView.setVisible(true);
+//        UserViewFrame userView = new UserViewFrame();
+//        userView.setVisible(true);
     }
     
 }

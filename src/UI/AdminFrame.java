@@ -5,17 +5,36 @@
  */
 package UI;
 
+import javax.swing.JTree;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+
 /**
  *
  * @author Heather
  */
 public class AdminFrame extends javax.swing.JFrame {
 
+    private DefaultMutableTreeNode root;
+    private DefaultTreeModel model;
     /**
      * Creates new form AdminFrame
      */
     public AdminFrame() {
         initComponents();
+        root = new DefaultMutableTreeNode("root");
+        DefaultMutableTreeNode birds = new DefaultMutableTreeNode ("birds");
+        root.add(birds);
+        DefaultMutableTreeNode penguin = new DefaultMutableTreeNode ("penguin", false);
+        birds.add(penguin);
+
+        
+        model = new DefaultTreeModel(root, true);
+        
+        jTree.setModel(model);
+        jTree.setVisible(true);
+        System.out.println(jTree.getModel() + " " + model);
+        
     }
 
     /**
@@ -44,6 +63,11 @@ public class AdminFrame extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTree);
 
         jButtonAddUser.setText("Add User");
+        jButtonAddUser.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonAddUserMouseClicked(evt);
+            }
+        });
 
         jButtonAddGroup.setText("Add Group");
 
@@ -130,6 +154,14 @@ public class AdminFrame extends javax.swing.JFrame {
     private void jTextFieldUserIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldUserIDActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldUserIDActionPerformed
+
+    private void jButtonAddUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonAddUserMouseClicked
+        System.out.println("Inserting " + jTextFieldUserID.getText() + ".");
+        DefaultMutableTreeNode firstNode = (DefaultMutableTreeNode)jTree.getSelectionPath().getLastPathComponent();
+        firstNode.add(new DefaultMutableTreeNode(jTextFieldUserID.getText(), false));
+        model.reload();
+        
+    }//GEN-LAST:event_jButtonAddUserMouseClicked
 
     /**
      * @param args the command line arguments
