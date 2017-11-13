@@ -16,13 +16,20 @@ public class User extends Leaf{
         super();
     }
     public User (String s) {
+        id = s;
         node = new DefaultMutableTreeNode(s, false);   
+    }
+    public User (User u) {
+        super();
+        node = u.getNode();
+        id = u.getID();
     }
 
     @Override
     public void add(Leaf treeNode) {
         node.add(treeNode.getNode());
     }
+    
     
 
 

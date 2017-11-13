@@ -70,10 +70,13 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Follow"/>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButtonFollowUserMouseClicked"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldUserID">
       <Properties>
-        <Property name="text" type="java.lang.String" value="User ID"/>
+        <Property name="toolTipText" type="java.lang.String" value="User ID"/>
       </Properties>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPaneCurrentFollowing">
@@ -105,10 +108,13 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Tweet"/>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButtonTweetMouseClicked"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldMessage">
       <Properties>
-        <Property name="text" type="java.lang.String" value="[Insert Message Here]"/>
+        <Property name="toolTipText" type="java.lang.String" value="[Insert Message Here]"/>
       </Properties>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPaneNewsFeed">

@@ -20,7 +20,12 @@ public class Group extends Leaf{
         leaves = new ArrayList<Leaf>();
     }
     public Group (String s) {
-        node = new DefaultMutableTreeNode(s);   
+        id = s;
+        node = new DefaultMutableTreeNode(s); 
+        leaves = new ArrayList<Leaf>();
+    }
+    public List<Leaf> getLeaves() {
+        return leaves;
     }
     @Override
     public void add(Leaf treeNode) {

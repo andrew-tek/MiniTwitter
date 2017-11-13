@@ -5,7 +5,13 @@
  */
 package UI;
 
+import UserInformation.AllUserInfo;
+import UserInformation.Information;
+import UserInformation.UserInfo;
 import UsersAndGroups.User;
+import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
+import javax.swing.JList;
 
 /**
  *
@@ -16,10 +22,29 @@ public class UserViewFrame extends javax.swing.JFrame {
     /**
      * Creates new form UserViewFrame
      */
+    private UserInfo user;
+    private AllUserInfo allUsers;
+    private DefaultListModel myWatchList;
     public UserViewFrame() {
         initComponents();
     }
-    public UserViewFrame(User user) {
+    public UserViewFrame(UserInfo user, AllUserInfo allInfo) {
+        initComponents();
+        allUsers = allInfo;
+        this.user = user;
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
+        this.setVisible(true);
+        myWatchList = new DefaultListModel(); 
+        for (Information info : user.getWatchlist()) {
+            myWatchList.addElement(info.getID());
+        }
+        jListCurrentFollowing =  new JList<>();
+        jListCurrentFollowing.setModel(myWatchList);
+        jListCurrentFollowing.setVisible(true);
+        jScrollPaneCurrentFollowing.setViewportView(jListCurrentFollowing);
+//        DefaultListModel test = (DefaultListModel) jListCurrentFollowing.getModel();
+//        test.removeAllElements();
         
     }
 
@@ -44,8 +69,13 @@ public class UserViewFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jButtonFollowUser.setText("Follow");
+        jButtonFollowUser.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonFollowUserMouseClicked(evt);
+            }
+        });
 
-        jTextFieldUserID.setText("User ID");
+        jTextFieldUserID.setToolTipText("User ID");
 
         jListCurrentFollowing.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -55,8 +85,13 @@ public class UserViewFrame extends javax.swing.JFrame {
         jScrollPaneCurrentFollowing.setViewportView(jListCurrentFollowing);
 
         jButtonTweet.setText("Tweet");
+        jButtonTweet.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonTweetMouseClicked(evt);
+            }
+        });
 
-        jTextFieldMessage.setText("[Insert Message Here]");
+        jTextFieldMessage.setToolTipText("[Insert Message Here]");
 
         jListNewsFeed.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -104,6 +139,27 @@ public class UserViewFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButtonFollowUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonFollowUserMouseClicked
+        String id = jTextFieldUserID.getText();
+        try{
+            UserInfo userToAdd = allUsers.getUserInfo(id);
+            userToAdd.attach(user);
+            myWatchList.addElement(userToAdd.getID());
+        }
+        catch (Exception e) {
+            System.out.println("ID not found.");
+        }
+        
+        
+    }//GEN-LAST:event_jButtonFollowUserMouseClicked
+
+    private void jButtonTweetMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonTweetMouseClicked
+        String message = jTextFieldMessage.getText();
+        user.notifyObservers();
+        
+        
+    }//GEN-LAST:event_jButtonTweetMouseClicked
 
     /**
      * @param args the command line arguments

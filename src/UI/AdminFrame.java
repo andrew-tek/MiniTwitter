@@ -5,6 +5,8 @@
  */
 package UI;
 
+import UserInformation.AllUserInfo;
+import UserInformation.UserInfo;
 import UsersAndGroups.Group;
 import UsersAndGroups.Leaf;
 import UsersAndGroups.User;
@@ -21,16 +23,21 @@ import javax.swing.tree.TreeSelectionModel;
  */
 public class AdminFrame extends javax.swing.JFrame {
 
-    private Leaf root;
+    private Group root;
     private DefaultTreeModel model;
     private int userCount;
     private int groupCount;
+    private AllUserInfo allUsers;
     
     /**
      * Creates new form AdminFrame
      */
     public AdminFrame() {
         initComponents();
+        allUsers = new AllUserInfo();
+        userCount = 0;
+        groupCount = 0;
+        setLocationRelativeTo(null);
         root = new Group("root");
         Leaf birds = new Group ("birds");
         root.add(birds);
@@ -85,6 +92,11 @@ public class AdminFrame extends javax.swing.JFrame {
         });
 
         jButtonOpenUserView.setText("Open User View");
+        jButtonOpenUserView.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonOpenUserViewMouseClicked(evt);
+            }
+        });
 
         jButtonGetGroupTotal.setText("Total Groups");
 
@@ -181,13 +193,14 @@ public class AdminFrame extends javax.swing.JFrame {
            root.add(newUser);
         }
         userCount++;
+        allUsers.addUser(new UserInfo(jTextFieldUserID.getText()));
         model.reload();
         
     }//GEN-LAST:event_jButtonAddUserMouseClicked
 
     private void jButtonAddGroupMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonAddGroupMouseClicked
         System.out.println("Added Group: " + jTextFieldGroupID.getText() + ".");
-        Leaf newGroup = new Group(jTextFieldUserID.getText());
+        Leaf newGroup = new Group(jTextFieldGroupID.getText());
         try {
             TreePath path = jTree.getSelectionModel().getSelectionPath();
             Leaf jTreeSelectedNode = new Group();
@@ -200,6 +213,19 @@ public class AdminFrame extends javax.swing.JFrame {
         groupCount++;
         model.reload();
     }//GEN-LAST:event_jButtonAddGroupMouseClicked
+
+    private void jButtonOpenUserViewMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonOpenUserViewMouseClicked
+        try {
+            TreePath path = jTree.getSelectionModel().getSelectionPath();
+            Leaf jTreeSelectedNode = new Group();
+            jTreeSelectedNode.setNode((DefaultMutableTreeNode)path.getLastPathComponent());
+            UserInfo user = allUsers.getUserInfo(jTreeSelectedNode.getNode().toString());
+            new UserViewFrame(user, allUsers);  
+        }
+        catch (Exception e){
+            System.out.println("Error: Please select a user");
+        }
+    }//GEN-LAST:event_jButtonOpenUserViewMouseClicked
 
     /**
      * @param args the command line arguments

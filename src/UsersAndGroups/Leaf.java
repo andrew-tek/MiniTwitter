@@ -18,12 +18,17 @@ public abstract class Leaf  {
     public Leaf() {
         node = new DefaultMutableTreeNode();
     }
-
     public DefaultMutableTreeNode getNode() {
         return node;
     }
     public void setNode (DefaultMutableTreeNode treeNode) {
         node = treeNode;
+    }
+    public String getID() {
+        return id;
+    }
+    public void setID (String s) {
+        id = s;
     }
     public abstract void add(Leaf treeNode);
 
