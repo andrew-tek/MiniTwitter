@@ -9,8 +9,10 @@ import java.util.List;
 
 /**
  *
- * @author Heather
+ * @author Andrew
  */
+
+//Interface for general info needed for twitter
 public interface Information {
     String getID();
     List <Information> getWatchlist();

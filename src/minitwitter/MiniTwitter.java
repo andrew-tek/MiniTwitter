@@ -6,22 +6,23 @@
 package minitwitter;
 
 import UI.AdminFrame;
+import static UI.AdminFrame.getAdminFrame;
 import UI.UserViewFrame;
 
 /**
  *
- * @author Heather
+ * @author Andrew
  */
+
+//Driver method.
 public class MiniTwitter {
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        AdminFrame adminFrame = new AdminFrame();
+        AdminFrame adminFrame = getAdminFrame();
         adminFrame.setVisible(true);
-//        UserViewFrame userView = new UserViewFrame();
-//        userView.setVisible(true);
     }
     
 }

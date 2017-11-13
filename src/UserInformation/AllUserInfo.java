@@ -11,8 +11,10 @@ import java.util.Map;
 
 /**
  *
- * @author Heather
+ * @author Andrew
  */
+
+//This class holds the information for all users. It uses a map
 public class AllUserInfo {
     private Map <String, UserInfo> users;
     
@@ -24,6 +26,9 @@ public class AllUserInfo {
     }
     public UserInfo getUserInfo (String s) {
         return users.get(s);
+    }
+    public void putUser (String s, UserInfo user) {
+        users.put(s, user);
     }
     
 }

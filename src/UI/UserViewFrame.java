@@ -5,8 +5,10 @@
  */
 package UI;
 
+import static UI.AdminFrame.getAdminFrame;
 import UserInformation.AllUserInfo;
 import UserInformation.Information;
+import UserInformation.Tweet;
 import UserInformation.UserInfo;
 import UsersAndGroups.User;
 import javax.swing.DefaultListModel;
@@ -25,9 +27,11 @@ public class UserViewFrame extends javax.swing.JFrame {
     private UserInfo user;
     private AllUserInfo allUsers;
     private DefaultListModel myWatchList;
+    private DefaultListModel myNewsFeed;
     public UserViewFrame() {
         initComponents();
     }
+    //Constructor using a user and also the map to all users
     public UserViewFrame(UserInfo user, AllUserInfo allInfo) {
         initComponents();
         allUsers = allInfo;
@@ -43,6 +47,17 @@ public class UserViewFrame extends javax.swing.JFrame {
         jListCurrentFollowing.setModel(myWatchList);
         jListCurrentFollowing.setVisible(true);
         jScrollPaneCurrentFollowing.setViewportView(jListCurrentFollowing);
+        
+        
+        myNewsFeed = new DefaultListModel();
+        for (int i = user.getMessages().size() - 1; i >= 0; i--) {
+            myNewsFeed.addElement(user.getMessages().get(i));
+        }
+        jListNewsFeed = new JList<>();
+        jListNewsFeed.setModel(myNewsFeed);
+        jListNewsFeed.setVisible(true);
+        jScrollPaneNewsFeed.setViewportView(jListNewsFeed);
+        
 //        DefaultListModel test = (DefaultListModel) jListCurrentFollowing.getModel();
 //        test.removeAllElements();
         
@@ -139,13 +154,16 @@ public class UserViewFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    //Based on input text field will add users to the watch list
     private void jButtonFollowUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonFollowUserMouseClicked
         String id = jTextFieldUserID.getText();
+        AdminFrame adminFrame = getAdminFrame();
         try{
             UserInfo userToAdd = allUsers.getUserInfo(id);
             userToAdd.attach(user);
+            user.getWatchlist().add(userToAdd);
             myWatchList.addElement(userToAdd.getID());
+            adminFrame.getAllUsers().putUser(user.getID(), user);
         }
         catch (Exception e) {
             System.out.println("ID not found.");
@@ -153,10 +171,16 @@ public class UserViewFrame extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_jButtonFollowUserMouseClicked
-
+    //Will add message to the list and also add it for followers of this person
     private void jButtonTweetMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonTweetMouseClicked
         String message = jTextFieldMessage.getText();
-        user.notifyObservers();
+        if (message.contains("happy")) {
+            getAdminFrame().incrementPositive();
+        }
+        getAdminFrame().incrementMessage();
+        user.notifyObservers(message);
+        user.getMessages().add(message);
+        myNewsFeed.addElement(message);
         
         
     }//GEN-LAST:event_jButtonTweetMouseClicked

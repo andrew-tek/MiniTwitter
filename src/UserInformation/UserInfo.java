@@ -12,6 +12,8 @@ import java.util.List;
  *
  * @author Andrew
  */
+
+//User info that holds all information. UserInfo is a subject AND observer
 public class UserInfo extends Subject implements Information, Observer {
     private String id;
     private List <Information> watchList;
@@ -38,7 +40,20 @@ public class UserInfo extends Subject implements Information, Observer {
             messages.add(((Tweet) subject).getMessage());
         }
     }
-
+    //Will notify all observers to update and get new info
+    @Override
+    public void notifyObservers() {
+        for (Observer ob : observers) {
+            ob.update(this);
+        }
+    }
+    //Will push the message to all observers of thread
+    public void notifyObservers (String message) {
+        Tweet tweet = new Tweet (message);
+        for (Observer ob : observers) {
+            ob.update(tweet);
+        }
+    }
     @Override
     public List<Information> getWatchlist() {
         return watchList;

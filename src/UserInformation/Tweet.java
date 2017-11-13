@@ -7,10 +7,15 @@ package UserInformation;
 
 /**
  *
- * @author Heather
+ * @author Andrew
  */
+
+//Special type of subject that has a message
 public class Tweet extends Subject{
     private String message;
+    public Tweet (String s) {
+        message = s;
+    }
     public String getMessage() {
         return message;
     }

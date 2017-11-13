@@ -11,8 +11,10 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 /**
  *
- * @author Heather
+ * @author Andrew
  */
+
+//Class is used for UI structure
 public class Group extends Leaf{
     private List <Leaf> leaves;
     public Group() {

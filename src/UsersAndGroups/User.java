@@ -9,8 +9,10 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 /**
  *
- * @author Heather
+ * @author Andrew
  */
+
+//Structure for users in a JTree
 public class User extends Leaf{
     public User(){
         super();

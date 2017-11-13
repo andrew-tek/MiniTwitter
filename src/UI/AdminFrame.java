@@ -10,6 +10,9 @@ import UserInformation.UserInfo;
 import UsersAndGroups.Group;
 import UsersAndGroups.Leaf;
 import UsersAndGroups.User;
+import Visitor.CountVisitor;
+import Visitor.TwitterVisitor;
+import javax.swing.JOptionPane;
 import javax.swing.JTree;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -22,34 +25,40 @@ import javax.swing.tree.TreeSelectionModel;
  * @author Andrew
  */
 public class AdminFrame extends javax.swing.JFrame {
-
+    public static AdminFrame adminFrame;
+    private TwitterVisitor visitor;
+    private AllUserInfo allUsers;
     private Group root;
     private DefaultTreeModel model;
     private int userCount;
     private int groupCount;
-    private AllUserInfo allUsers;
+    private int messageCount;
+    private int positiveCount;
     
     /**
      * Creates new form AdminFrame
      */
-    public AdminFrame() {
+    private AdminFrame() {
         initComponents();
         allUsers = new AllUserInfo();
         userCount = 0;
         groupCount = 0;
+        messageCount = 0;
+        positiveCount = 0;
+        visitor = new CountVisitor();
         setLocationRelativeTo(null);
         root = new Group("root");
-        Leaf birds = new Group ("birds");
-        root.add(birds);
-        Leaf penguin = new User ("penguin");
-        birds.add(penguin);
-
-        
         model = new DefaultTreeModel(root.getNode(), true);
         jTree.setModel(model);
         jTree.setVisible(true);
-        System.out.println(jTree.getModel() + " " + model);
         
+    }
+    public AllUserInfo getAllUsers() {
+        return allUsers;
+    }
+    //Store a record in map
+    public void putInRecord (String key, UserInfo user) {
+        allUsers.putUser(key, user);
     }
 
     /**
@@ -99,12 +108,32 @@ public class AdminFrame extends javax.swing.JFrame {
         });
 
         jButtonGetGroupTotal.setText("Total Groups");
+        jButtonGetGroupTotal.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonGetGroupTotalMouseClicked(evt);
+            }
+        });
 
         jButtonGetMessageTotal.setText("Total Messages");
+        jButtonGetMessageTotal.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonGetMessageTotalMouseClicked(evt);
+            }
+        });
 
         jButtonGetUsersTotal.setText("Total Users");
+        jButtonGetUsersTotal.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonGetUsersTotalMouseClicked(evt);
+            }
+        });
 
         jButtonGetPositivePercent.setText("Positive %");
+        jButtonGetPositivePercent.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonGetPositivePercentMouseClicked(evt);
+            }
+        });
 
         jTextFieldUserID.setText("User ID");
         jTextFieldUserID.addActionListener(new java.awt.event.ActionListener() {
@@ -180,6 +209,14 @@ public class AdminFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldUserIDActionPerformed
 
+    //Singleton get the admin frame object
+    public static AdminFrame getAdminFrame() {
+        if (adminFrame == null) {
+            adminFrame = new AdminFrame();
+        }
+        return adminFrame;
+    }
+    //On click listener will add user 
     private void jButtonAddUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonAddUserMouseClicked
         System.out.println("Added User: " + jTextFieldUserID.getText() + ".");
         Leaf newUser = new User(jTextFieldUserID.getText());
@@ -197,7 +234,7 @@ public class AdminFrame extends javax.swing.JFrame {
         model.reload();
         
     }//GEN-LAST:event_jButtonAddUserMouseClicked
-
+    //On click will add new group to jTree
     private void jButtonAddGroupMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonAddGroupMouseClicked
         System.out.println("Added Group: " + jTextFieldGroupID.getText() + ".");
         Leaf newGroup = new Group(jTextFieldGroupID.getText());
@@ -214,6 +251,7 @@ public class AdminFrame extends javax.swing.JFrame {
         model.reload();
     }//GEN-LAST:event_jButtonAddGroupMouseClicked
 
+    //Will open the selected user's information into a new frame
     private void jButtonOpenUserViewMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonOpenUserViewMouseClicked
         try {
             TreePath path = jTree.getSelectionModel().getSelectionPath();
@@ -223,10 +261,45 @@ public class AdminFrame extends javax.swing.JFrame {
             new UserViewFrame(user, allUsers);  
         }
         catch (Exception e){
+            e.printStackTrace();
             System.out.println("Error: Please select a user");
         }
     }//GEN-LAST:event_jButtonOpenUserViewMouseClicked
-
+    //Uses visitory pattern to visit users
+    private void jButtonGetUsersTotalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonGetUsersTotalMouseClicked
+        JOptionPane.showMessageDialog(this, visitor.visitUsers());
+    }//GEN-LAST:event_jButtonGetUsersTotalMouseClicked
+     //Uses visitory pattern to visit groups
+    private void jButtonGetGroupTotalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonGetGroupTotalMouseClicked
+        JOptionPane.showMessageDialog(this, visitor.visitGroups());
+    }//GEN-LAST:event_jButtonGetGroupTotalMouseClicked
+ //Uses visitory pattern to visit messages
+    private void jButtonGetMessageTotalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonGetMessageTotalMouseClicked
+        JOptionPane.showMessageDialog(this, visitor.visitMessages());
+    }//GEN-LAST:event_jButtonGetMessageTotalMouseClicked
+    //Uses visitory pattern to visit positive messages
+    private void jButtonGetPositivePercentMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonGetPositivePercentMouseClicked
+        JOptionPane.showMessageDialog(this, visitor.visitPositives());
+    }//GEN-LAST:event_jButtonGetPositivePercentMouseClicked
+    public void incrementMessage(){
+        messageCount++;
+    }
+    public void incrementPositive() {
+        positiveCount++;
+    }
+    public int getMessageCount() {
+        return messageCount;
+    }
+    public int getUserCount() {
+        return userCount;
+    }
+    public int getPositiveCount() {
+        return positiveCount;
+    }
+    public int getGroupCount() {
+        return groupCount;
+    }
+    
     /**
      * @param args the command line arguments
      */

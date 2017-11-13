@@ -12,6 +12,8 @@ import java.util.List;
  *
  * @author Andrew
  */
+
+//Subject for observer pattern
 public abstract class Subject {
     List <Observer> observers = new ArrayList<Observer>();
     public void attach (Observer observer) {

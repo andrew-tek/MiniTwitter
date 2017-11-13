@@ -11,6 +11,8 @@ import javax.swing.tree.DefaultMutableTreeNode;
  *
  * @author Andrew
  */
+
+//Abstract class holding general structure for what is on a JTree
 public abstract class Leaf  {
     String id;
     DefaultMutableTreeNode node;
