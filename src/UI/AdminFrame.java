@@ -5,32 +5,40 @@
  */
 package UI;
 
+import UsersAndGroups.Group;
+import UsersAndGroups.Leaf;
+import UsersAndGroups.User;
 import javax.swing.JTree;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
+import javax.swing.tree.TreeSelectionModel;
 
 /**
  *
- * @author Heather
+ * @author Andrew
  */
 public class AdminFrame extends javax.swing.JFrame {
 
-    private DefaultMutableTreeNode root;
+    private Leaf root;
     private DefaultTreeModel model;
+    private int userCount;
+    private int groupCount;
+    
     /**
      * Creates new form AdminFrame
      */
     public AdminFrame() {
         initComponents();
-        root = new DefaultMutableTreeNode("root");
-        DefaultMutableTreeNode birds = new DefaultMutableTreeNode ("birds");
+        root = new Group("root");
+        Leaf birds = new Group ("birds");
         root.add(birds);
-        DefaultMutableTreeNode penguin = new DefaultMutableTreeNode ("penguin", false);
+        Leaf penguin = new User ("penguin");
         birds.add(penguin);
 
         
-        model = new DefaultTreeModel(root, true);
-        
+        model = new DefaultTreeModel(root.getNode(), true);
         jTree.setModel(model);
         jTree.setVisible(true);
         System.out.println(jTree.getModel() + " " + model);
@@ -70,6 +78,11 @@ public class AdminFrame extends javax.swing.JFrame {
         });
 
         jButtonAddGroup.setText("Add Group");
+        jButtonAddGroup.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonAddGroupMouseClicked(evt);
+            }
+        });
 
         jButtonOpenUserView.setText("Open User View");
 
@@ -156,12 +169,37 @@ public class AdminFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextFieldUserIDActionPerformed
 
     private void jButtonAddUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonAddUserMouseClicked
-        System.out.println("Inserting " + jTextFieldUserID.getText() + ".");
-        DefaultMutableTreeNode firstNode = (DefaultMutableTreeNode)jTree.getSelectionPath().getLastPathComponent();
-        firstNode.add(new DefaultMutableTreeNode(jTextFieldUserID.getText(), false));
+        System.out.println("Added User: " + jTextFieldUserID.getText() + ".");
+        Leaf newUser = new User(jTextFieldUserID.getText());
+        TreePath path = jTree.getSelectionModel().getSelectionPath();
+        try {
+           Leaf jTreeSelectedNode = new Group();
+           jTreeSelectedNode.setNode((DefaultMutableTreeNode)path.getLastPathComponent());
+           jTreeSelectedNode.add(newUser);
+        }
+        catch (Exception e) {
+           root.add(newUser);
+        }
+        userCount++;
         model.reload();
         
     }//GEN-LAST:event_jButtonAddUserMouseClicked
+
+    private void jButtonAddGroupMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonAddGroupMouseClicked
+        System.out.println("Added Group: " + jTextFieldGroupID.getText() + ".");
+        Leaf newGroup = new Group(jTextFieldUserID.getText());
+        try {
+            TreePath path = jTree.getSelectionModel().getSelectionPath();
+            Leaf jTreeSelectedNode = new Group();
+            jTreeSelectedNode.setNode((DefaultMutableTreeNode)path.getLastPathComponent());
+            jTreeSelectedNode.add(newGroup);
+        }
+        catch (Exception e) {
+            root.add(newGroup);
+        }
+        groupCount++;
+        model.reload();
+    }//GEN-LAST:event_jButtonAddGroupMouseClicked
 
     /**
      * @param args the command line arguments

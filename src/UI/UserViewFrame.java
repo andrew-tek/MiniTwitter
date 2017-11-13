@@ -5,6 +5,8 @@
  */
 package UI;
 
+import UsersAndGroups.User;
+
 /**
  *
  * @author Heather
@@ -16,6 +18,9 @@ public class UserViewFrame extends javax.swing.JFrame {
      */
     public UserViewFrame() {
         initComponents();
+    }
+    public UserViewFrame(User user) {
+        
     }
 
     /**

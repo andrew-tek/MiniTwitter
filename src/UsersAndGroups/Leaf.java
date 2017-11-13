@@ -9,9 +9,22 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 /**
  *
- * @author Heather
+ * @author Andrew
  */
-public abstract class Leaf extends DefaultMutableTreeNode {
+public abstract class Leaf  {
+    String id;
+    DefaultMutableTreeNode node;
     
-    
+    public Leaf() {
+        node = new DefaultMutableTreeNode();
+    }
+
+    public DefaultMutableTreeNode getNode() {
+        return node;
+    }
+    public void setNode (DefaultMutableTreeNode treeNode) {
+        node = treeNode;
+    }
+    public abstract void add(Leaf treeNode);
+
 }
