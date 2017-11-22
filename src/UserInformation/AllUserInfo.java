@@ -30,5 +30,8 @@ public class AllUserInfo {
     public void putUser (String s, UserInfo user) {
         users.put(s, user);
     }
+    public Map getUsers() {
+        return users;
+    }
     
 }

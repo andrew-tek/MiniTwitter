@@ -32,7 +32,7 @@
                           <Group type="102" attributes="0">
                               <Component id="jTextFieldGroupID" min="-2" pref="172" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jButtonAddGroup" max="32767" attributes="0"/>
+                              <Component id="jButtonAddGroup" pref="165" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
                               <Component id="jTextFieldUserID" min="-2" pref="172" max="-2" attributes="0"/>
@@ -43,20 +43,26 @@
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                      <Component id="jButtonOpenUserView" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="jButtonGetMessageTotal" min="-2" pref="109" max="-2" attributes="0"/>
+                          <Component id="jButtonGetUsersTotal" pref="0" max="32767" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jButtonGetUsersTotal" min="-2" pref="150" max="-2" attributes="0"/>
-                                  <Component id="jButtonGetMessageTotal" min="-2" pref="150" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace pref="43" max="32767" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jButtonGetGroupTotal" min="-2" pref="150" max="-2" attributes="0"/>
-                                  <Component id="jButtonGetPositivePercent" min="-2" pref="150" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                              <Component id="jButtonGetPositivePercent" min="-2" pref="100" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jButtonCheckID" max="32767" attributes="0"/>
                           </Group>
-                          <Component id="jButtonOpenUserView" alignment="0" max="32767" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="jButtonGetGroupTotal" min="-2" pref="100" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jButtonGetLatest" pref="0" max="32767" attributes="0"/>
+                          </Group>
                       </Group>
                   </Group>
               </Group>
@@ -84,11 +90,13 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jButtonGetGroupTotal" alignment="3" min="-2" pref="39" max="-2" attributes="0"/>
                   <Component id="jButtonGetUsersTotal" alignment="3" min="-2" pref="39" max="-2" attributes="0"/>
+                  <Component id="jButtonGetLatest" alignment="3" min="-2" pref="39" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jButtonGetMessageTotal" alignment="3" min="-2" pref="39" max="-2" attributes="0"/>
                   <Component id="jButtonGetPositivePercent" alignment="3" min="-2" pref="39" max="-2" attributes="0"/>
+                  <Component id="jButtonCheckID" alignment="3" min="-2" pref="39" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
           </Group>
@@ -137,6 +145,7 @@
       </Properties>
       <Events>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButtonGetGroupTotalMouseClicked"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonGetGroupTotalActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jButtonGetMessageTotal">
@@ -175,6 +184,22 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Group ID"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="jButtonCheckID">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Check Unique"/>
+      </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButtonCheckIDMouseClicked"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="jButtonGetLatest">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Get Latest Update"/>
+      </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButtonGetLatestMouseClicked"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

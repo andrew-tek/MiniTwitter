@@ -5,6 +5,7 @@
  */
 package UserInformation;
 
+import static UI.AdminFrame.getAdminFrame;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +25,7 @@ public class UserInfo extends Subject implements Information, Observer {
         watchList = new ArrayList <Information> ();
         messages = new ArrayList <String> ();
         observers.add(this);
+        timeCreated = System.currentTimeMillis();
     }
     public String getID() {
         return id;
@@ -53,6 +55,7 @@ public class UserInfo extends Subject implements Information, Observer {
         for (Observer ob : observers) {
             ob.update(tweet);
         }
+        getAdminFrame().setLastUpdatedUser(this);
     }
     @Override
     public List<Information> getWatchlist() {

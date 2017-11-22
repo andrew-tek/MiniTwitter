@@ -5,6 +5,8 @@
  */
 package Visitor;
 
+import UserInformation.UserInfo;
+
 /**
  *
  * @author Andrew
@@ -17,4 +19,6 @@ public interface TwitterVisitor {
     public String visitMessages();
     //Positive count is messages with "happy" or similar words.
     public String visitPositives();
+    public boolean checkID();
+    public UserInfo visitLastUpdated();
 }

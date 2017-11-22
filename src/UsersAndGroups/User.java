@@ -19,7 +19,7 @@ public class User extends Leaf{
     }
     public User (String s) {
         id = s;
-        node = new DefaultMutableTreeNode(s, false);   
+        node = new DefaultMutableTreeNode(s, false);  
     }
     public User (User u) {
         super();

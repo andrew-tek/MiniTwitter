@@ -5,6 +5,7 @@
  */
 package UserInformation;
 
+import static UI.AdminFrame.getAdminFrame;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +16,8 @@ import java.util.List;
 
 //Subject for observer pattern
 public abstract class Subject {
+    long lastUpdate;
+    long timeCreated;
     List <Observer> observers = new ArrayList<Observer>();
     public void attach (Observer observer) {
         observers.add(observer);
@@ -26,6 +29,19 @@ public abstract class Subject {
         for (Observer ob : observers) {
             ob.update(this);
         }
+    }
+        public long getTimeCreated() {
+        return timeCreated;
+    }
+    private void setTimeCreated (long time) {
+        timeCreated = time;
+    }
+    
+    public long getLastUpdate() {
+        return lastUpdate;
+    }
+    public void setLastUpdate(long last) {
+        lastUpdate = last;
     }
     
     

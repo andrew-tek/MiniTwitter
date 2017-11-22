@@ -11,6 +11,8 @@ import UserInformation.Information;
 import UserInformation.Tweet;
 import UserInformation.UserInfo;
 import UsersAndGroups.User;
+import java.util.Calendar;
+import java.util.Date;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JList;
@@ -47,6 +49,14 @@ public class UserViewFrame extends javax.swing.JFrame {
         jListCurrentFollowing.setModel(myWatchList);
         jListCurrentFollowing.setVisible(true);
         jScrollPaneCurrentFollowing.setViewportView(jListCurrentFollowing);
+        Date date = new Date (user.getTimeCreated());
+        jLabelTimeCreated.setText(date.toString());
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.setTimeInMillis(user.getTimeCreated());
+//        int mYear = calendar.get(Calendar.YEAR);
+//        int mMonth = calendar.get(Calendar.MONTH);
+//        int mDay = calendar.get(Calendar.DAY_OF_MONTH);
+        
         
         
         myNewsFeed = new DefaultListModel();
@@ -80,6 +90,8 @@ public class UserViewFrame extends javax.swing.JFrame {
         jTextFieldMessage = new javax.swing.JTextField();
         jScrollPaneNewsFeed = new javax.swing.JScrollPane();
         jListNewsFeed = new javax.swing.JList<>();
+        jLabelCreatedText = new javax.swing.JLabel();
+        jLabelTimeCreated = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -115,6 +127,10 @@ public class UserViewFrame extends javax.swing.JFrame {
         });
         jScrollPaneNewsFeed.setViewportView(jListNewsFeed);
 
+        jLabelCreatedText.setText("Time Created:");
+
+        jLabelTimeCreated.setText("Time Created Will Be Here");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -123,25 +139,36 @@ public class UserViewFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPaneCurrentFollowing, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jTextFieldUserID, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButtonFollowUser, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jTextFieldMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButtonTweet, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jScrollPaneNewsFeed))
+                    .addComponent(jScrollPaneNewsFeed)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jTextFieldUserID, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButtonFollowUser, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabelCreatedText)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabelTimeCreated, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(6, 6, 6)))
                 .addContainerGap(14, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(16, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonFollowUser, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldUserID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addComponent(jTextFieldUserID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonFollowUser, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelCreatedText)
+                    .addComponent(jLabelTimeCreated))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPaneCurrentFollowing, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -178,6 +205,8 @@ public class UserViewFrame extends javax.swing.JFrame {
             getAdminFrame().incrementPositive();
         }
         getAdminFrame().incrementMessage();
+        user.setLastUpdate(System.currentTimeMillis());
+        
         user.notifyObservers(message);
         user.getMessages().add(message);
         myNewsFeed.addElement(message);
@@ -223,6 +252,8 @@ public class UserViewFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonFollowUser;
     private javax.swing.JButton jButtonTweet;
+    private javax.swing.JLabel jLabelCreatedText;
+    private javax.swing.JLabel jLabelTimeCreated;
     private javax.swing.JList<String> jListCurrentFollowing;
     private javax.swing.JList<String> jListNewsFeed;
     private javax.swing.JScrollPane jScrollPaneCurrentFollowing;

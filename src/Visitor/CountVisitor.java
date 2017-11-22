@@ -5,6 +5,12 @@
  */
 package Visitor;
 import static UI.AdminFrame.getAdminFrame;
+import UserInformation.AllUserInfo;
+import UserInformation.UserInfo;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 /**
  *
  * @author Andrew
@@ -29,6 +35,29 @@ public class CountVisitor implements TwitterVisitor {
     @Override
     public String visitPositives() {
         return Integer.toString(getAdminFrame().getMessageCount());
+    }
+    @Override
+    public boolean checkID() {
+        AllUserInfo allUsers = getAdminFrame().getAllUsers();
+        Map <String, UserInfo> duplicate = new HashMap <String, UserInfo>();  
+        List <UserInfo> userInfo;
+        userInfo = new ArrayList<UserInfo> (allUsers.getUsers().values());
+        for (UserInfo us : userInfo) {
+            System.out.println(us.getID());
+            if (duplicate.containsValue(us)) {
+                return false;
+            }
+            else {
+                duplicate.put(us.getID(), us);
+            }
+        }
+        return true;
+        
+    }
+
+    @Override
+    public UserInfo visitLastUpdated() {
+        return getAdminFrame().getLastUpdatedUser();
     }
     
 }

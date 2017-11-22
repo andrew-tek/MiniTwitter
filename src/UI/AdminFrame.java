@@ -34,6 +34,7 @@ public class AdminFrame extends javax.swing.JFrame {
     private int groupCount;
     private int messageCount;
     private int positiveCount;
+    private UserInfo lastUpdatedUser;
     
     /**
      * Creates new form AdminFrame
@@ -81,6 +82,8 @@ public class AdminFrame extends javax.swing.JFrame {
         jButtonGetPositivePercent = new javax.swing.JButton();
         jTextFieldUserID = new javax.swing.JTextField();
         jTextFieldGroupID = new javax.swing.JTextField();
+        jButtonCheckID = new javax.swing.JButton();
+        jButtonGetLatest = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -111,6 +114,11 @@ public class AdminFrame extends javax.swing.JFrame {
         jButtonGetGroupTotal.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButtonGetGroupTotalMouseClicked(evt);
+            }
+        });
+        jButtonGetGroupTotal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonGetGroupTotalActionPerformed(evt);
             }
         });
 
@@ -144,6 +152,20 @@ public class AdminFrame extends javax.swing.JFrame {
 
         jTextFieldGroupID.setText("Group ID");
 
+        jButtonCheckID.setText("Check Unique");
+        jButtonCheckID.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonCheckIDMouseClicked(evt);
+            }
+        });
+
+        jButtonGetLatest.setText("Get Latest Update");
+        jButtonGetLatest.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonGetLatestMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -157,24 +179,29 @@ public class AdminFrame extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jTextFieldGroupID, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButtonAddGroup, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(jButtonAddGroup, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jTextFieldUserID, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButtonAddUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(18, 18, 18)
+                        .addComponent(jButtonOpenUserView, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(7, 7, 7)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButtonGetMessageTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonGetUsersTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jButtonGetUsersTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jButtonGetMessageTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jButtonGetGroupTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jButtonGetPositivePercent, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(6, 6, 6))
-                            .addComponent(jButtonOpenUserView, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addComponent(jButtonGetPositivePercent, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButtonCheckID, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButtonGetGroupTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButtonGetLatest, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -194,11 +221,13 @@ public class AdminFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonGetGroupTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonGetUsersTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButtonGetUsersTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonGetLatest, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonGetMessageTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonGetPositivePercent, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButtonGetPositivePercent, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonCheckID, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(11, 11, 11))
         );
 
@@ -216,23 +245,35 @@ public class AdminFrame extends javax.swing.JFrame {
         }
         return adminFrame;
     }
+    
+    //Set last updated user
+    public void setLastUpdatedUser(UserInfo user) {
+        lastUpdatedUser = user;
+    }
+    public UserInfo getLastUpdatedUser () {
+        return lastUpdatedUser;
+    }
     //On click listener will add user 
     private void jButtonAddUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonAddUserMouseClicked
-        System.out.println("Added User: " + jTextFieldUserID.getText() + ".");
-        Leaf newUser = new User(jTextFieldUserID.getText());
-        TreePath path = jTree.getSelectionModel().getSelectionPath();
-        try {
-           Leaf jTreeSelectedNode = new Group();
-           jTreeSelectedNode.setNode((DefaultMutableTreeNode)path.getLastPathComponent());
-           jTreeSelectedNode.add(newUser);
+        if (allUsers.getUsers().containsKey(jTextFieldUserID.getText())) {
+            System.out.println("User already exists.");
+            JOptionPane.showMessageDialog(this, "ERROR: User already exists.");
         }
-        catch (Exception e) {
-           root.add(newUser);
+        else {
+            Leaf newUser = new User(jTextFieldUserID.getText());
+            TreePath path = jTree.getSelectionModel().getSelectionPath();
+            try {
+               Leaf jTreeSelectedNode = new Group();
+               jTreeSelectedNode.setNode((DefaultMutableTreeNode)path.getLastPathComponent());
+               jTreeSelectedNode.add(newUser);
+            }
+            catch (Exception e) {
+               root.add(newUser);
+            }
+            userCount++;
+            allUsers.addUser(new UserInfo(jTextFieldUserID.getText()));
+            model.reload(); 
         }
-        userCount++;
-        allUsers.addUser(new UserInfo(jTextFieldUserID.getText()));
-        model.reload();
-        
     }//GEN-LAST:event_jButtonAddUserMouseClicked
     //On click will add new group to jTree
     private void jButtonAddGroupMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonAddGroupMouseClicked
@@ -281,6 +322,23 @@ public class AdminFrame extends javax.swing.JFrame {
     private void jButtonGetPositivePercentMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonGetPositivePercentMouseClicked
         JOptionPane.showMessageDialog(this, visitor.visitPositives());
     }//GEN-LAST:event_jButtonGetPositivePercentMouseClicked
+
+    private void jButtonGetGroupTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGetGroupTotalActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonGetGroupTotalActionPerformed
+
+    private void jButtonCheckIDMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonCheckIDMouseClicked
+        if (visitor.checkID()) {
+            JOptionPane.showMessageDialog(this, "All IDs are unique");
+        }
+        else {
+            JOptionPane.showMessageDialog(this, "All IDs are NOT unique");
+        }
+    }//GEN-LAST:event_jButtonCheckIDMouseClicked
+
+    private void jButtonGetLatestMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonGetLatestMouseClicked
+        JOptionPane.showMessageDialog(this, this.getLastUpdatedUser().getID());
+    }//GEN-LAST:event_jButtonGetLatestMouseClicked
     public void incrementMessage(){
         messageCount++;
     }
@@ -338,7 +396,9 @@ public class AdminFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAddGroup;
     private javax.swing.JButton jButtonAddUser;
+    private javax.swing.JButton jButtonCheckID;
     private javax.swing.JButton jButtonGetGroupTotal;
+    private javax.swing.JButton jButtonGetLatest;
     private javax.swing.JButton jButtonGetMessageTotal;
     private javax.swing.JButton jButtonGetPositivePercent;
     private javax.swing.JButton jButtonGetUsersTotal;
